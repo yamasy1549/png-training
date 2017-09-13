@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ruby-progressbar (1.8.3)
+    tk (0.2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ruby-progressbar
+  tk
+
+BUNDLED WITH
+   1.14.3
