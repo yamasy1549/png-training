@@ -3,7 +3,7 @@ require 'tk'
 require 'ruby-progressbar'
 
 PNG_FILE_SIGNATURE = "89504e470d0a1a0a"
-CHANK_TYPE_SIZE = 4
+CHUNK_TYPE_SIZE = 4
 
 IHDR_IW_SIZE = 4
 IHDR_IH_SIZE = 4
@@ -50,18 +50,18 @@ class String
   end
 end
 
-class Chank
+class Chunk
   attr_accessor :data
 
   def initialize(name, bytes)
     @name = name
-    read_chank(bytes)
+    read_chunk(bytes)
   end
 
-  def read_chank(bytes)
+  def read_chunk(bytes)
     @length = bytes.match(/(\H{4})#{@name}/)[1].to_hex
     num = /#{@name}/ =~ bytes
-    @data = bytes[num + CHANK_TYPE_SIZE, @length]
+    @data = bytes[num + CHUNK_TYPE_SIZE, @length]
   end
 end
 
@@ -69,9 +69,9 @@ class PNG
   def initialize(filename)
     @filename = filename
     @bytes = File.open(filename, "rb").read
-    @IHDR = Chank.new("IHDR", @bytes)
-    @IDAT = Chank.new("IDAT", @bytes)
-    @IEND = Chank.new("IEND", @bytes)
+    @IHDR = Chunk.new("IHDR", @bytes)
+    @IDAT = Chunk.new("IDAT", @bytes)
+    @IEND = Chunk.new("IEND", @bytes)
     set_header_info
   end
 
